@@ -1,0 +1,49 @@
+{
+  "modell": "htdemucs_ft (vocals, 04573f0d)",
+  "gewichte_sha256": "f3cf25b222c4eed7cd49dd8b2c9597d50c18bd154090f7b919cfa5f93cf22c49",
+  "onnx": "htdemucs_ft_vocals.onnx",
+  "onnx_bytes": 304413278,
+  "onnx_sha256": "194726def610fce4842e9bbd930fb6937d4cd1fcb2eaa75689457558a104801f",
+  "samplerate": 44100,
+  "eingabe": [
+    1,
+    2,
+    343980
+  ],
+  "ausgabe": [
+    1,
+    4,
+    2,
+    343980
+  ],
+  "quellen": [
+    "drums",
+    "bass",
+    "other",
+    "vocals"
+  ],
+  "opset": 17,
+  "torch": "2.8.0+cpu",
+  "onnxruntime": "1.31.0",
+  "snr_db_gegen_original": {
+    "musik": {
+      "drums": 69.64,
+      "bass": 73.26,
+      "other": 75.8,
+      "vocals": 51.79,
+      "pegel_gesang_original": 4e-05
+    },
+    "gesang": {
+      "drums": 68.96,
+      "bass": 74.44,
+      "other": 77.68,
+      "vocals": 86.82,
+      "pegel_gesang_original": 0.06348,
+      "aehnlichkeit_original": 0.95,
+      "aehnlichkeit_onnx": 0.95
+    }
+  },
+  "mindestens_db": 40.0,
+  "gesang_gefunden": true,
+  "bestanden": true
+}
