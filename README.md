@@ -63,16 +63,16 @@ Gefordert waren mindestens 40 dB. Die Proben:
 Der vollständige Bericht steht in
 [`htdemucs_ft_vocals/htdemucs_ft_vocals.json`](htdemucs_ft_vocals/htdemucs_ft_vocals.json).
 
-## wav2vec2-large-XLSR-53, Deutsch und Englisch (ONNX)
+## wav2vec2-large-XLSR-53, Deutsch, Englisch und Spanisch (ONNX)
 
-| | Deutsch | Englisch |
-|---|---|---|
-| Zweck | Liedtext auf die Gesangsspur ausrichten (CTC) | dasselbe |
-| Release | [`wav2vec2-xlsr53-de-1`](../../releases/tag/wav2vec2-xlsr53-de-1) | [`wav2vec2-xlsr53-en-1`](../../releases/tag/wav2vec2-xlsr53-en-1) |
-| Datei | `wav2vec2_xlsr53_de.onnx`, 1.262.310.086 Bytes | `wav2vec2_xlsr53_en.onnx`, 1.262.289.586 Bytes |
-| SHA-256 | `18bb0679d4948b3779ce8a091a7c70469c36f674910377f143bb55d9fdc5ce1f` | `deaef716ef06bc7bed6a3048f7f185a7d4ae00de257c6dd370026a93af66d86f` |
-| Zeichen | 38 (`wav2vec2_xlsr53_de.vocab.json`) | 33 (`wav2vec2_xlsr53_en.vocab.json`) |
-| Lizenz | Apache-2.0, siehe [`LIZENZEN/apache-2.0.txt`](LIZENZEN/apache-2.0.txt) | dasselbe |
+| | Deutsch | Englisch | Spanisch |
+|---|---|---|---|
+| Zweck | Liedtext auf die Gesangsspur ausrichten (CTC) | dasselbe | dasselbe |
+| Release | [`wav2vec2-xlsr53-de-1`](../../releases/tag/wav2vec2-xlsr53-de-1) | [`wav2vec2-xlsr53-en-1`](../../releases/tag/wav2vec2-xlsr53-en-1) | [`wav2vec2-xlsr53-es-1`](../../releases/tag/wav2vec2-xlsr53-es-1) |
+| Datei | `wav2vec2_xlsr53_de.onnx`, 1.262.310.086 Bytes | `wav2vec2_xlsr53_en.onnx`, 1.262.289.586 Bytes | `wav2vec2_xlsr53_es.onnx`, 1.262.322.386 Bytes |
+| SHA-256 | `18bb0679d4948b3779ce8a091a7c70469c36f674910377f143bb55d9fdc5ce1f` | `deaef716ef06bc7bed6a3048f7f185a7d4ae00de257c6dd370026a93af66d86f` | `b7969bb73fdf241b12f9496f7a716243c6ed71ba83076fa0a29c7a068d2a8fc6` |
+| Zeichen | 38 (`wav2vec2_xlsr53_de.vocab.json`) | 33 (`wav2vec2_xlsr53_en.vocab.json`) | 41 (`wav2vec2_xlsr53_es.vocab.json`) |
+| Lizenz | Apache-2.0, siehe [`LIZENZEN/apache-2.0.txt`](LIZENZEN/apache-2.0.txt) | dasselbe | dasselbe |
 
 **Eingabe:** `input_values` als float32 `[1, n]`, Mono, 16 kHz. Der Ton muss
 vorher normiert sein, also Mittel 0 und Streuung 1. **Ausgabe:** `logits`
@@ -88,6 +88,9 @@ als float32 `[1, Bilder, Zeichen]`, ein Bild je 20 ms. Die Länge ist variabel.
   - Englisch: `jonatasgrosman/wav2vec2-large-xlsr-53-english` @ `569a623`,
     Datei `model.safetensors`, SHA-256
     `6144f8464c6aaa220dd57c5a2ad4039b5710dcf8ee6e67057675f76597c19875`.
+  - Spanisch: `jonatasgrosman/wav2vec2-large-xlsr-53-spanish` @ `96d7e9b`,
+    Datei `pytorch_model.bin`, SHA-256
+    `41c110e55d2eac8c79486ad87dbe8f9527ed034fe087a6adf03c891eeba914c1`.
 - Sie bauen auf XLSR-53 von Facebook auf, ebenfalls Apache-2.0.
 - Exportiert mit `transformers` 4.57.1 und `torch` 2.8.0, Opset 17, über das
   Skript [`wav2vec2_xlsr53/wav2vec2_ctc.py`](wav2vec2_xlsr53/wav2vec2_ctc.py).
@@ -102,6 +105,7 @@ Abstand der Logits und 99,9 % gleiches wahrscheinlichstes Zeichen je Bild.
 |---|---|---|---|
 | Deutsch | 89,1 dB | 94,1 dB | 100 % |
 | Englisch | 84,2 dB | 94,1 dB | 100 % |
+| Spanisch | 89,7 dB | 91,2 dB | 100 % |
 
 Die vollständigen Berichte stehen in `wav2vec2_xlsr53/*.json`.
 
