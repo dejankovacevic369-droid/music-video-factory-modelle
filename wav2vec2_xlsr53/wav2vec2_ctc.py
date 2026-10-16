@@ -1,4 +1,4 @@
-"""wav2vec2-large-XLSR-53 (Deutsch, Englisch) nach ONNX — ADR 0009, Roadmap R3.5a.
+"""wav2vec2-large-XLSR-53 (Deutsch, Englisch, Spanisch) nach ONNX — ADR 0009, Roadmap R3.5a, R3.6c.
 
 Exportiert das CTC-Modell von jonatasgrosman (Apache-2.0) mit variabler
 Länge und prüft die ONNX-Datei gegen das PyTorch-Original:
@@ -13,7 +13,7 @@ Länge und prüft die ONNX-Datei gegen das PyTorch-Original:
   Gewichte werden ohne ausführbaren Code geladen (Safetensors bzw.
   `weights_only`).
 
-    python modellbau/wav2vec2_ctc.py <gewichte-ordner> <zielordner> <de|en> <probe.wav>
+    python modellbau/wav2vec2_ctc.py <gewichte-ordner> <zielordner> <de|en|es> <probe.wav>
 """
 
 import hashlib
@@ -50,8 +50,8 @@ def main() -> None:
     if len(sys.argv) < 5:
         raise SystemExit(__doc__)
     quelle, ziel, sprache, probe = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3], sys.argv[4]
-    if sprache not in ("de", "en"):
-        raise SystemExit("Sprache de oder en")
+    if sprache not in ("de", "en", "es"):
+        raise SystemExit("Sprache de, en oder es")
     ziel.mkdir(parents=True, exist_ok=True)
 
     modell = Wav2Vec2ForCTC.from_pretrained(quelle, use_safetensors=(quelle / "model.safetensors").exists())
@@ -97,7 +97,7 @@ def main() -> None:
     vokabular = json.loads((quelle / "vocab.json").read_text(encoding="utf-8"))
     shutil.copy(quelle / "vocab.json", ziel / f"wav2vec2_xlsr53_{sprache}.vocab.json")
     bericht = {
-        "modell": f"jonatasgrosman/wav2vec2-large-xlsr-53-{'german' if sprache == 'de' else 'english'}",
+        "modell": f"jonatasgrosman/wav2vec2-large-xlsr-53-{ {'de': 'german', 'en': 'english', 'es': 'spanish'}[sprache] }",
         "gewichte_sha256": sha256(next(p for p in [quelle / "model.safetensors", quelle / "pytorch_model.bin"] if p.exists())),
         "onnx": name,
         "onnx_bytes": onnx_pfad.stat().st_size,

@@ -1,0 +1,29 @@
+{
+  "modell": "jonatasgrosman/wav2vec2-large-xlsr-53-spanish",
+  "gewichte_sha256": "41c110e55d2eac8c79486ad87dbe8f9527ed034fe087a6adf03c891eeba914c1",
+  "onnx": "wav2vec2_xlsr53_es.onnx",
+  "onnx_bytes": 1262322386,
+  "onnx_sha256": "b7969bb73fdf241b12f9496f7a716243c6ed71ba83076fa0a29c7a068d2a8fc6",
+  "samplerate": 16000,
+  "eingabe": "input_values [1, n], normiert (Mittel 0, Streuung 1)",
+  "ausgabe": "logits [1, bilder, 41]",
+  "zeichen": 41,
+  "opset": 17,
+  "torch": "2.8.0+cpu",
+  "onnxruntime": "1.31.0",
+  "gegen_original": {
+    "kurz": {
+      "sekunden": 5.0,
+      "bilder": 249,
+      "snr_db": 89.67,
+      "gleiches_zeichen": 1.0
+    },
+    "lang": {
+      "sekunden": 20.0,
+      "bilder": 999,
+      "snr_db": 91.21,
+      "gleiches_zeichen": 1.0
+    }
+  },
+  "bestanden": true
+}
