@@ -104,3 +104,39 @@ Abstand der Logits und 99,9 % gleiches wahrscheinlichstes Zeichen je Bild.
 | Englisch | 84,2 dB | 94,1 dB | 100 % |
 
 Die vollständigen Berichte stehen in `wav2vec2_xlsr53/*.json`.
+
+## Whisper large-v3-turbo, quantisiert (ggml)
+
+| | |
+|---|---|
+| Zweck | Liedtext aus der Gesangsspur erkennen, wenn kein Liedtext vorliegt. Das Ergebnis ist ein Entwurf; die Zeiten kommen danach aus der Ausrichtung mit wav2vec2 |
+| Release | [`whisper-large-v3-turbo-q5_0-1`](../../releases/tag/whisper-large-v3-turbo-q5_0-1) |
+| Datei | `ggml-large-v3-turbo-q5_0.bin`, 574.041.195 Bytes |
+| SHA-256 | `394221709cd5ad1f40c46e6031ca61bce88931e6e088c188294c6d5a55ffa7e2` |
+| Format | ggml, gelesen von [whisper.cpp](https://github.com/ggml-org/whisper.cpp). Eingabe: Mono, 16 kHz |
+| Lizenz | MIT, siehe [`LIZENZEN/whisper-MIT.txt`](LIZENZEN/whisper-MIT.txt) |
+
+**Herkunft:**
+
+- Die Datei ist **unverändert** gespiegelt. Sie stammt von den Autoren von
+  whisper.cpp auf Hugging Face, fest auf einen Commit genagelt:
+  `ggerganov/whisper.cpp` @ `5359861c739e955e79d9a303bcbc70fb988958b1`.
+  Die Prüfsumme dort (Git LFS) ist dieselbe wie oben.
+- Die Gewichte sind `whisper-large-v3-turbo` von OpenAI (MIT). whisper.cpp
+  hat sie ins ggml-Format umgewandelt und auf 5 Bit quantisiert (`q5_0`),
+  ebenfalls unter MIT.
+- Gespiegelt wird, damit die App nur von einem Ort lädt, dessen Inhalt hier
+  beschrieben und geprüft ist.
+
+**Prüfung:** Erkannt wurden zwei synthetische Sprachproben (Windows-
+Sprachausgabe, je vier Zeilen), ohne die Sprache vorzugeben. Gerechnet hat
+whisper.cpp über `whisper-rs` 0.16.0, nur auf dem Prozessor mit 16 Threads.
+
+| | Ton | Rechenzeit | erkannte Sprache | Wortfehlerrate |
+|---|---|---|---|---|
+| Deutsch | 10,7 s | 11,9 s | `de` | 0,00 |
+| Englisch | 11,9 s | 11,9 s | `en` | 0,10 |
+
+Die Fehler im Englischen: „harbor“ statt „harbour“, „Rhein“ statt „rain“,
+„girls“ statt „gulls“. Der Bericht steht in
+[`whisper/ggml-large-v3-turbo-q5_0.json`](whisper/ggml-large-v3-turbo-q5_0.json).

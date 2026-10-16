@@ -1,0 +1,34 @@
+{
+  "modell": "openai/whisper-large-v3-turbo, quantisiert q5_0 im ggml-Format von whisper.cpp",
+  "quelle": "https://huggingface.co/ggerganov/whisper.cpp",
+  "quelle_commit": "5359861c739e955e79d9a303bcbc70fb988958b1",
+  "datei": "ggml-large-v3-turbo-q5_0.bin",
+  "bytes": 574041195,
+  "sha256": "394221709cd5ad1f40c46e6031ca61bce88931e6e088c188294c6d5a55ffa7e2",
+  "sha256_laut_quelle": "394221709cd5ad1f40c46e6031ca61bce88931e6e088c188294c6d5a55ffa7e2",
+  "veraendert": false,
+  "laufzeit": "whisper.cpp über whisper-rs 0.16.0 (whisper-rs-sys 0.15.0)",
+  "probe": {
+    "datum": "2026-10-16",
+    "ton": "synthetische Sprachprobe (Windows-Sprachausgabe), je vier Zeilen, Mono, 16 kHz",
+    "sprache_vorgegeben": false,
+    "rechner": "Intel Core Ultra 9 275HX, 16 Threads, nur Prozessor",
+    "ergebnisse": [
+      {
+        "sprache": "de",
+        "sekunden_ton": 10.7,
+        "sekunden_rechnen": 11.9,
+        "sprache_erkannt": "de",
+        "wortfehlerrate": 0.0
+      },
+      {
+        "sprache": "en",
+        "sekunden_ton": 11.9,
+        "sekunden_rechnen": 11.9,
+        "sprache_erkannt": "en",
+        "wortfehlerrate": 0.1,
+        "anmerkung": "harbour/harbor, rain/Rhein, gulls/girls"
+      }
+    ]
+  }
+}
