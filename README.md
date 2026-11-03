@@ -144,3 +144,40 @@ whisper.cpp über `whisper-rs` 0.16.0, nur auf dem Prozessor mit 16 Threads.
 Die Fehler im Englischen: „harbor“ statt „harbour“, „Rhein“ statt „rain“,
 „girls“ statt „gulls“. Der Bericht steht in
 [`whisper/ggml-large-v3-turbo-q5_0.json`](whisper/ggml-large-v3-turbo-q5_0.json).
+
+## YuNet und SFace (ONNX, OpenCV Model Zoo)
+
+| | YuNet | SFace |
+|---|---|---|
+| Zweck | Gesichter im Bild finden, mit fünf Punkten (Augen, Nase, Mundwinkel) | Gesichter vergleichen: ein Merkmal aus 128 Zahlen je Gesicht |
+| Release | [`yunet-2026may-1`](../../releases/tag/yunet-2026may-1) | [`sface-2021dec-1`](../../releases/tag/sface-2021dec-1) |
+| Datei | `face_detection_yunet_2026may.onnx`, 229.738 Bytes | `face_recognition_sface_2021dec.onnx`, 38.696.353 Bytes |
+| SHA-256 | `ebafce4e3c118d6554634be5c27ab333b4c047a9a8c3faf1d7cf93101c22f0f0` | `0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79` |
+| Eingabe | `input`: float32 `[1, 3, H, W]`, BGR 0–255; H und W Vielfache von 32 | `data`: float32 `[1, 3, 112, 112]`, RGB 0–255, auf die fünf Punkte ausgerichtet |
+| Ausgabe | je Schrittweite 8, 16, 32: `cls_*`, `obj_*` `[1, N, 1]`, `bbox_*` `[1, N, 4]`, `kps_*` `[1, N, 10]` | `fc1`: float32 `[1, 128]`, verglichen über den Kosinus |
+| Lizenz | MIT, Copyright (c) 2020 Shiqi Yu, siehe [`LIZENZEN/yunet-MIT.txt`](LIZENZEN/yunet-MIT.txt) | Apache-2.0, siehe [`LIZENZEN/apache-2.0.txt`](LIZENZEN/apache-2.0.txt) |
+
+**Herkunft:**
+
+- Beide Dateien sind **unverändert** gespiegelt aus dem
+  [OpenCV Model Zoo](https://github.com/opencv/opencv_zoo), Commit
+  `48b10fa505aeb51fbd127fc60a5c660040e823b7`:
+  `models/face_detection_yunet/` und `models/face_recognition_sface/`. Die
+  Prüfsummen dort (Git LFS) sind dieselben wie oben.
+- YuNet stammt von Shiqi Yu und Mitarbeitern. SFace hat Yaoyao Zhong
+  beigetragen, die Umwandlung nach ONNX Chengrui Wang.
+- Gespiegelt wird, damit die App nur von einem Ort lädt, dessen Inhalt hier
+  beschrieben und geprüft ist.
+
+**Prüfung:** Die App rechnet beide Modelle mit ONNX Runtime (über `ort`
+2.0.0-rc.13) und liest, richtet aus und schneidet aus wie OpenCV
+(`FaceDetectorYN`, `FaceRecognizerSF`). Verglichen wurde mit OpenCV 4.12.0
+an denselben acht Bildern, längste Seite 640 Bildpunkte:
+
+| Gesichter | gleiche Anzahl je Bild | Punkte, größte Abweichung | Merkmale, kleinster Kosinus |
+|---|---|---|---|
+| 13 | ja | 0,03 Bildpunkte | 0,9982 |
+
+Der Bericht steht in
+[`opencv_zoo/face_yunet_sface.json`](opencv_zoo/face_yunet_sface.json).
+Die Probebilder sind nicht veröffentlicht.
