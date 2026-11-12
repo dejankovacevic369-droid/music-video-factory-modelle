@@ -109,6 +109,65 @@ Abstand der Logits und 99,9 % gleiches wahrscheinlichstes Zeichen je Bild.
 
 Die vollständigen Berichte stehen in `wav2vec2_xlsr53/*.json`.
 
+## wav2vec2 XLS-R 300M, Serbisch (ONNX)
+
+| | |
+|---|---|
+| Zweck | Liedtext auf die Gesangsspur ausrichten (CTC), Serbisch in lateinischer Schrift |
+| Release | [`wav2vec2-xlsr300m-sr-1`](../../releases/tag/wav2vec2-xlsr300m-sr-1) |
+| Datei | `wav2vec2_xlsr300m_sr.onnx`, 1.262.359.286 Bytes |
+| SHA-256 | `abff05edfda7b8db3f6a72dc04caa8f4cd89fc42b89c9479bb112b62ee933767` |
+| Zeichen | 48 (`wav2vec2_xlsr300m_sr.vocab.json`), darunter č, ć, đ, š, ž |
+| Lizenz | **CC BY-SA 4.0**, siehe [`LIZENZEN/cc-by-sa-4.0.txt`](LIZENZEN/cc-by-sa-4.0.txt) |
+
+**Namensnennung:** Das Modell stammt von [CLASSLA](https://huggingface.co/classla)
+(`classla/wav2vec2-xls-r-juznevesti-sr` auf Hugging Face). Es wurde auf 58 Stunden
+Ton und Mitschrift von [Južne vesti](https://www.juznevesti.com/) trainiert, aus
+der Sendung „15 minuta“. Es baut auf `facebook/wav2vec2-xls-r-300m` auf
+(Apache-2.0). CLASSLA hat bestätigt, dass die Gewichte unter CC BY-SA 4.0 stehen
+und weitergegeben werden dürfen. Auf der Modellkarte bei Hugging Face steht keine
+Lizenz (Stand der Karte: 18.08.2022).
+
+**Änderungen:** Die Gewichte wurden nach ONNX umgewandelt und sonst nicht
+verändert: nicht nachtrainiert, nicht quantisiert, nicht beschnitten. Die
+umgewandelte Datei steht unter derselben Lizenz, CC BY-SA 4.0.
+
+**Herkunft:**
+
+- `classla/wav2vec2-xls-r-juznevesti-sr` @ `eda11f178afcd01c07365bdffad4a1274169550b`,
+  Datei `pytorch_model.bin`, SHA-256
+  `63181247e08f99317f361d16404e1fd9cce5ca286467749f0bbc4bd937ce1440` (gleich der
+  Prüfsumme bei Hugging Face).
+- Exportiert mit `transformers` 4.57.1 und `torch` 2.8.0, Opset 17, über dasselbe
+  Skript wie die anderen Sprachen:
+  [`wav2vec2_xlsr53/wav2vec2_ctc.py`](wav2vec2_xlsr53/wav2vec2_ctc.py).
+  Geladen wurde mit `weights_only`, also ohne ausführbaren Code.
+
+**Eingabe und Ausgabe:** wie bei den anderen Sprachen, also `input_values` als
+float32 `[1, n]`, Mono, 16 kHz, normiert. Zwei Unterschiede:
+
+- Das Modell hat **50 Ausgaben**, das Vokabular nennt aber nur 48 Zeichen. Die
+  Ausgaben 48 und 49 gehören zu keinem Zeichen.
+- Das Leerzeichen der CTC heißt `[PAD]` und hat die Nummer 36. Bei den anderen
+  Sprachen heißt es `<pad>` und hat die Nummer 0.
+
+**Prüfung gegen das Original:** Gemessen wurde wie bei den anderen Sprachen.
+
+| | 5 s | 20 s | gleiches Zeichen |
+|---|---|---|---|
+| Serbisch | 110,7 dB | 111,2 dB | 100 % |
+
+Der Bericht steht in
+[`wav2vec2_xlsr300m_sr/wav2vec2_xlsr300m_sr.json`](wav2vec2_xlsr300m_sr/wav2vec2_xlsr300m_sr.json).
+
+**Funktionsprobe:** Gerechnet wurde das Beispiel der Modellkarte (`00020570a.flac.wav`
+aus `classla/wav2vec2-xls-r-parlaspeech-hr`, 5,3 s), gierig dekodiert mit
+[`wav2vec2_xlsr53/wav2vec2_erkennen.py`](wav2vec2_xlsr53/wav2vec2_erkennen.py).
+Die ONNX-Datei liefert **wortgleich** den Satz der Karte: „velik broj poslovnih
+subjekata posluje sa minosom velik deo“. Zur Gegenprobe lief dasselbe Beispiel
+durch das spanische Modell. Es liefert „elic broy bostl i su biec …“. Das
+Beispiel selbst ist hier nicht veröffentlicht.
+
 ## Whisper large-v3-turbo, quantisiert (ggml)
 
 | | |

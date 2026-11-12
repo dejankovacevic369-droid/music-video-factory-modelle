@@ -1,0 +1,32 @@
+{
+  "modell": "classla/wav2vec2-xls-r-juznevesti-sr",
+  "lizenz": "CC BY-SA 4.0",
+  "namensnennung": "CLASSLA (classla/wav2vec2-xls-r-juznevesti-sr), trainiert auf dem Korpus Južne vesti; nach ONNX umgewandelt, sonst unverändert",
+  "gewichte_sha256": "63181247e08f99317f361d16404e1fd9cce5ca286467749f0bbc4bd937ce1440",
+  "onnx": "wav2vec2_xlsr300m_sr.onnx",
+  "onnx_bytes": 1262359286,
+  "onnx_sha256": "abff05edfda7b8db3f6a72dc04caa8f4cd89fc42b89c9479bb112b62ee933767",
+  "samplerate": 16000,
+  "eingabe": "input_values [1, n], normiert (Mittel 0, Streuung 1)",
+  "ausgabe": "logits [1, bilder, 50]",
+  "zeichen": 48,
+  "ausgaben": 50,
+  "opset": 17,
+  "torch": "2.8.0+cpu",
+  "onnxruntime": "1.31.0",
+  "gegen_original": {
+    "kurz": {
+      "sekunden": 5.0,
+      "bilder": 249,
+      "snr_db": 110.68,
+      "gleiches_zeichen": 1.0
+    },
+    "lang": {
+      "sekunden": 20.0,
+      "bilder": 999,
+      "snr_db": 111.2,
+      "gleiches_zeichen": 1.0
+    }
+  },
+  "bestanden": true
+}
